@@ -1,0 +1,221 @@
+<!doctype html>
+<html class="no-js">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <script th:src="@{/assets/js/echarts.min.js}"></script>
+  <script th:src="@{/assets/js/jquery.min.js}"></script>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Bigdata team10</title>
+  <meta name="description" content="这是一个 table 页面">
+  <meta name="keywords" content="table">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <link rel="icon" type="image/png" th:href="@{/assets/i/favicon.png}">
+  <link rel="apple-touch-icon-precomposed" th:href="@{/assets/i/app-icon72x72(2x.png)}">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+  <link rel="stylesheet" th:href="@{/assets/css/amazeui.min.css}"/>
+  <link rel="stylesheet" th:href="@{/assets/css/admin.css}">
+</head>
+<body>
+<header>
+  <div class="am-topbar-brand">
+    <strong>Team 10</strong><small>商务管理系统</small>
+  </div>
+
+  <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+
+    <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
+
+      <li class="am-dropdown" data-am-dropdown>
+        <ul class="am-dropdown-content">
+          <li><a href="#"><span class="am-icon-user"></span> 资料</a></li>
+          <li><a href="#"><span class="am-icon-cog"></span> 设置</a></li>
+          <li><a href="#"><span class="am-icon-power-off"></span> 退出</a></li>
+        </ul>
+      </li>
+
+    </ul>
+  </div>
+</header>
+<div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
+  <div class="am-offcanvas-bar admin-offcanvas-bar">
+    <ul class="am-list admin-sidebar-list">
+      <li class="admin-parent">
+        <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}"><span class="am-icon-file" ></span>功能模块<span class="am-icon-angle-right am-fr am-margin-right"></span></a>
+        <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
+          <li><a href="/single" class="am-cf"><span class="am-icon-check"></span>个人画像<span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+          <li><a href="/group"><span class="am-icon-puzzle-piece"></span>群体画像</a></li>
+          <li><a href="/search"><span class="am-icon-puzzle-piece"></span>多值查询</a></li>
+        </ul>
+    </ul>
+  </div>
+</div>
+
+    <!-- sidebar end -->
+
+    <!-- content start -->
+  <div class="admin-content">
+    <div class="admin-content-body">
+      <div class="am-cf am-padding am-padding-bottom-0">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">多值筛选值组合查询</strong> / <small>Multi - value queries</small></div>
+      </div>
+      <hr>
+      <div>
+        <form onsubmit="return usearch()" method="post" style="margin-bottom: 20px">
+          <div>
+            <div class="option" style="float: left;">
+              <select id="gender">
+                <option value="none" selected disabled hidden>请选择性别</option>
+                <option value="男">男</option>
+                <option value="女">女</option>
+              </select>
+            </div>
+
+            <div class="option" style="float: left;">
+              <select id="age">
+                <option value="none" selected disabled hidden>请选择年龄段</option>
+                <option value="50后">50后</option>
+                <option value="60后">60后</option>
+                <option value="70后">70后</option>
+                <option value="80后">80后</option>
+                <option value="90后">90后</option>
+                <option value="00后">00后</option>
+                <option value="10后">10后</option>
+                <option value="20后">20后</option>
+                <option value="其他">其他</option>
+              </select>
+            </div>
+
+            <div class="option" style="float: left;">
+              <select id="job">
+                <option value="none" selected disabled hidden>请选择职业</option>
+                <option value="学生">学生</option>
+                <option value="公务员">公务员</option>
+                <option value="军人">军人</option>
+                <option value="警察">警察</option>
+                <option value="教师">教师</option>
+                <option value="白领">白领</option>
+                <option value="其他">其他</option>
+              </select>
+            </div>
+          </div>
+          <button style="height: 30px;width: 65px;color: rgb(1, 1, 8);background-color:white; border: 1px solid #cccccc;box-shadow: 0 0 5px #ccc;margin-left: 80px;margin-top: 10px;"  value="提交">提交</button>
+        </form>
+      </div>
+
+      <div class="am-g">
+        <div class="am-u-sm-12">
+          <form class="am-form">
+              <div id="tbody1">
+              </div>
+            <hr />
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  <!-- content end -->
+
+
+<script>
+  function usearch() {
+    var age = $('#age option:selected').val();
+    var job = $('#job option:selected').val();
+    var gender = $('#gender option:selected').val();
+    $.ajax({
+      url: "http://localhost:8080//usermore",
+      type: "POST",
+      contentType: "application/json",
+      dataType: "json",
+      data: JSON.stringify({
+        "age": age,
+        "job": job,
+        "gender": gender
+      }),
+      success: function (result) {
+        descuserm(result.msg);
+      }
+    });
+    return false
+  }
+</script>
+<script>
+  function descuserm(data) {
+    var tableData = '<table class="am-table am-table-striped am-table-hover table-main">';
+    tableData +="<th class=\"table-check\"></th><th class=\"table-id\">ID</th><th class=\"table-title\">用户名</th><th class=\"table-type\">籍贯</th><th class=\"table-author am-hide-sm-only\">所属商圈</th><th class=\"table-date am-hide-sm-only\">邮箱</th><th class=\"table-set\">电话</th>"
+    re = $.parseJSON(data)
+    $.each(re, function (idx, item) {
+        var path = 'http://localhost:8080/userinfomation?msg='+ item.mobile
+      tableData += "<tr>";
+      tableData += "<td></td><td>"+item.id+"</td>\n" +
+              "<td><a href = "+ path + ">" +item.username+"</a></td>\n" +
+              "<td>"+item.province+"</td>\n" +
+              "<td class=\"am-hide-sm-only\">"+item.store+"</td>\n" +
+              "<td class=\"am-hide-sm-only\">"+item.email+"</td>\n"+
+              "<td class=\"am-hide-sm-only\">"+item.mobile+"</td>"
+      tableData += "</tr>";
+    });
+    tableData += "</table><hr></div>\n" +
+            "      <footer class=\"admin-content-footer\">\n" +
+            "        <hr>\n" +
+            "        <p class=\"am-padding-left\">© 2021 team_10</p>\n" +
+            "      </footer>\n" +
+            "    </div>";
+    $("#tbody1").html(tableData)
+  }
+
+</script>
+<footer>
+  <hr>
+  <p class="am-padding-left">© 2014 AllMobilize, Inc. Licensed under MIT license.</p>
+</footer>
+
+<!--[if lt IE 9]-->
+
+</body>
+<style>
+  .option{
+    /*用div的样式代替select的样式*/
+    margin: 5px;
+    width: 220px;
+    height: 38px;
+    /*border-radius: 5px;*/
+    /*盒子阴影修饰作用,自己随意*/
+    box-shadow: 0 0 5px #ccc;
+    border: 1px solid #cccccc;
+    position: relative;
+  }
+  .option select{
+    /*清除select的边框样式*/
+    border: none;
+    /*清除select聚焦时候的边框颜色*/
+    outline: none;
+    /*将select的宽高等于div的宽高*/
+    width: 100%;
+    height: 35px;
+    line-height: 35px;
+    /*隐藏select的下拉图标*/
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    /*通过padding-left的值让文字居中*/
+    padding-left: 90px;
+  }
+  /*使用伪类给select添加自己想用的图标*/
+  .option:after{
+    content: "";
+    width: 14px;
+    height: 8px;
+    /*background: url(../assets/arrow-down.png) no-repeat center;*/
+    /*通过定位将图标放在合适的位置*/
+    position: absolute;
+    right: 20px;
+    top: 41%;
+    /*给自定义的图标实现点击下来功能*/
+    pointer-events: none;
+  }
+</style>
+</html>

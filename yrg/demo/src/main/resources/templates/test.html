@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{/assets/js/echarts.min.js}"></script>
+    <script th:src="@{/assets/js/jquery.min.js}"></script>
+    <style>
+        html,body,#main{
+            padding: 0px;
+            margin: 0px;
+            height: 100%;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+<div id="main"></div>
+<script type="text/javascript">
+    $.getJSON("/assets/China.json",function(map){
+        var myChart = echarts.init(document.getElementById('main'));
+        echarts.registerMap("china",map);
+        myChart.setOption({
+            tooltip: {
+                formatter: '(万人)'
+            },
+            series: [{
+                type: 'map',//类型必须是map
+                map: 'china',//注意这里的值需要和echarts.registerMap('henan',data);一致
+            }]
+        });
+/*
+        var option = {
+            tooltip: {
+                trigger:'item',
+            },
+            series : [ {
+                mapType : "china",
+                type : "map",
+                itemStyle: {
+                    normal: {
+                        borderWidth: 1,
+                        borderColor: '#ffffff',//区域边框色
+                        areaColor: '#FFDAB9',//区域背景色
+                        label: {
+                            show: false,
+                        }
+                    },
+                }
+            } ]
+        };
+
+        myChart.setOption(option);*/
+    });
+</script>
+</body>
+
+</html>

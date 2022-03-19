@@ -1,0 +1,508 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Bigdata JTeam10</title>
+    <script th:src="@{/assets/js/echarts.min.js}"></script>
+    <script th:src="@{/assets/js/jquery.min.js}"></script>
+    <link rel="icon" type="image/png" th:href="@{/assets/i/favicon.png}">
+    <link rel="apple-touch-icon-precomposed" th:href="@{/assets/i/app-icon72x722x.png}">
+    <link rel="stylesheet" th:href="@{/assets/css/amazeui.min.css}"/>
+    <link rel="stylesheet" th:href="@{/assets/css/admin.css}">
+</head>
+<body onload="user()">
+<header>
+    <div class="am-topbar-brand">
+        <strong>Team 10</strong> <small>商务管理系统</small>
+    </div>
+    <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+
+        <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
+
+            <li class="am-dropdown" data-am-dropdown>
+                <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+                </a>
+
+            </li>
+
+        </ul>
+    </div>
+</header>
+<div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
+    <div class="am-offcanvas-bar admin-offcanvas-bar">
+        <ul class="am-list admin-sidebar-list">
+            <li class="admin-parent">
+                <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}"><span class="am-icon-file"></span> 功能模块 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
+                <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
+                    <li><a href="/single" class="am-cf"><span class="am-icon-check"></span> 个人画像<span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                    <li><a href="/group"><span class="am-icon-puzzle-piece"></span> 群体画像</a></li>
+                    <li><a href="/search"><span class="am-icon-puzzle-piece"></span> 多值查询</a></li>
+                </ul>
+        </ul>
+    </div>
+</div>
+<!-- sidebar end -->
+
+<!-- content start -->
+<div class="admin-content">
+    <div class="admin-content-body">
+        <div class="am-cf am-padding">
+            <div style="display: inline;float: right">
+                <strong><span class="am-icon-users"></span>最近登录情况：<div id="div_logr" style="display: inline"></div></strong>
+                <strong><span class="am-icon-users"></span>登录频率：<div id="div_logf" style="display: inline"></div></strong>
+            </div>
+        </div>
+
+
+        <div class="am-g">
+            <div class="am-u-sm-12">
+                <table class="am-table am-table-bd am-table-striped admin-content-table">
+                    <thead>
+                    <tr>
+                        <th>ID</th><th>用户名</th><th>性别</th><th>邮箱</th><th>联系电话</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><div id="div_id"></div></td><td><div id="div_name" style="display: inline;margin-right: 5px"> </div><div id="div_save" style="display: inline;margin-right:2px;border:1px solid #000;color: crimson;background-color: #ffad6d;font-size: 10px"></div><div id="div_byti" style="display: inline;border:1px solid #000;color: #0c79b1;background-color: #5eb95e;font-size: 10px"></div></td><td><div id = "div_gender"></div></td><td><div id="div_email"></div></td><td><div id="div_phone"></div></td></tr>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="am-g">
+            <div class="am-u-md-6">
+                <div class="am-panel am-panel-default">
+                    <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-1'}">基本信息<span class="am-icon-chevron-down am-fr" ></span></div>
+                    <div class="am-panel-bd am-collapse am-in" id="collapse-panel-1">
+                        <ul class="am-list admin-content-file">
+                            <li>
+                                <strong><span class="am-icon-check"></span>出生日期：<div id="div_bir"></div></strong>
+                            </li>
+                            <li>
+                                <strong>工作：<div id="div_job"></div></strong>
+                            </li>
+                            <li>
+                                <strong>政治面貌：<div id="div_face"></div></strong>
+                            </li>
+                            <li>
+                                <strong>所在国家：<div id="div_nation"></div> </strong>
+                            </li>
+                            <li>
+                                <strong>籍贯：<div id = "div_pro"></div></strong>
+                            </li>
+                            <li>
+                                <strong>所属商圈<div id="div_store"></div></strong>
+                            </li>
+                            <li>
+                                <strong>婚姻状况：<div id="div_mar"></div></strong>
+                            </li>
+                            <li>
+                                <strong>年龄：<div id="div_age"></div></strong>
+                            </li>
+                            <li>
+                                <strong>星座<div id="div_con"></div></strong>
+                            </li>
+                            <li>
+                                <strong>是否在黑名单内<div id="div_blklst"></div></strong>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="am-u-md-6">
+                <div class="am-panel am-panel-default">
+                    <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-4'}">周消费曲线<span class="am-icon-chevron-down am-fr" ></span></div>
+                    <div id="collapse-panel-4" class="am-panel-bd am-collapse am-in">
+                        <ul class="am-list admin-content-task">
+                            <li>
+                                <div class="admin-task-meta">截至2021-6-26前</div>
+                                <div class="admin-task-bd">
+                                </div>
+                                <div class="am-cf">
+                                    <div class="am-btn-toolbar am-fl">
+                                        <div class="am-btn-group am-btn-group-xs">
+                                            <div class="am-btn-group am-btn-group-xs" id="main3" style="width: 600px;height:200px;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="am-u-md-6">
+                <div class="am-panel am-panel-default">
+                    <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-4'}">消费偏好推荐<span class="am-icon-chevron-down am-fr" ></span></div>
+                    <div id="collapse-panel-5" class="am-panel-bd am-collapse am-in">
+                        <ul class="am-list admin-content-task">
+                            <div class="am-g">
+                                <div class="am-u-sm-12">
+                                    <form class="am-form">
+                                        <table class="am-table am-table-striped am-table-hover table-main">
+                                            <thead>
+                                            <tr>
+                                                <th class="table-id">排位</th><th class="table-author am-hide-sm-only">用户喜爱榜</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td><div id="div_pro1" style="white-space:nowrap;"></div></td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td><div id="div_pro2" style="white-space:nowrap;"></div></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3</td>
+                                                <td><div id="div_pro3" style="white-space:nowrap;"></div></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </form>
+                                    <div>
+                                        <strong>用户最喜爱品牌：<div id="div_proty"></div></strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="am-g">
+            <div class="am-u-md-6">
+                <div class="am-panel am-panel-default">
+                    <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-1'}">浏览时间分析<span class="am-icon-chevron-down am-fr" ></span></div>
+                    <div class="am-panel-bd am-collapse am-in" id="collapse-panel-2">
+                        <div class="am-btn-group am-btn-group-xs" id="main5" style="width: 600px;height:300px;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="am-u-md-6">
+                <div class="am-panel am-panel-default">
+                    <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-4'}">消费属性分析<span class="am-icon-chevron-down am-fr" ></span></div>
+                    <div id="collapse-panel-3" class="am-panel-bd am-collapse am-in">
+                        <ul class="am-list admin-content-task">
+                            <li>
+                                <div class="admin-task-meta">截至2021-6-26前</div>
+                                <div class="admin-task-bd">
+                                </div>
+                                <div class="am-cf">
+                                    <!--li>
+                                      <strong>用户编号：<div id="div_mid"></div></strong>
+                                    </li-->
+                            <li>
+                                <strong>支付方式:<div id="div_pay"></div></strong>
+                            </li>
+                            <li>
+                                <strong>单笔最高消费：<div id="div_hisg"></div></strong>
+                            </li>
+                            <li>
+                                <strong>消费周期：<div id="div_round"></div></strong>
+                            </li>
+                            <li>
+                                <strong>平均每单消费：<div id="div_avpr"></div></strong>
+                            </li>
+                            <li>
+                                <strong>退货率（高、中、低）：<div id="div_change"></div></strong>
+                            </li>
+                            <li>
+                                <strong>用户价值（高、中、低）：<div id="div_value"></div></strong>
+                            </li>
+                            <li>
+                                <strong>退货率（高、中、低）：<div id="div_back"></div></strong>
+                            </li>
+                            <li>
+                                <strong>购买频率（高、中、低）：<div id="div_fre"></div></strong>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="admin-content-footer">
+        <hr>
+        <p class="am-padding-left">© 2021 team_10</p>
+    </footer>
+</div>
+<!-- content end -->
+
+
+
+<a th:href="@{#}" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}"></a>
+
+<script >
+    function descsuserprofile(re) {
+        var province = re.province;
+        if (province == "") {
+            province = "查询失败";
+        }
+        var store = re.store;
+        if (store == '') {
+            store = province;
+        }
+
+        document.getElementById("div_id").innerHTML = re.id;
+        document.getElementById("div_name").innerHTML = re.username;
+        document.getElementById("div_gender").innerHTML = re.gender;
+        document.getElementById("div_email").innerHTML = re.email;
+        document.getElementById("div_phone").innerHTML = re.mobile;
+        document.getElementById("div_bir").innerHTML = re.birthday;
+        document.getElementById("div_job").innerHTML = re.job;
+        document.getElementById("div_face").innerHTML = re.politicalFace;
+        document.getElementById("div_nation").innerText = re.nationality;
+        document.getElementById("div_mar").innerHTML = re.marriage;
+        document.getElementById("div_age").innerHTML = re.age;
+        document.getElementById("div_con").innerHTML = re.Constellation;
+        document.getElementById("div_blklst").innerHTML = re.is_blackList;
+        document.getElementById("div_pro").innerHTML = province;
+        document.getElementById("div_store").innerHTML = store;
+        document.getElementById("div_logr").innerHTML = re.log_recent;
+        document.getElementById('div_logf').innerHTML = re.log_f;
+        usercycle(re.mobile);
+        userprepro(re.id);
+        usertitle(re.id);
+        userconsum(re.id);
+        usersctime(re.id);
+    }
+    function descucyc(re) {
+        var a = [];
+        var b =[];
+        var c=[];
+        for(var i = 0;i<re.length;i++) {
+            a.push(re[i].count);
+            b.push(re[i].cycle);
+            c.push(re[i].productName);
+        }
+
+        var chartDom = document.getElementById('main3');
+        var myChart = echarts.init(chartDom);
+        var option;
+
+        option = {
+            title: {
+                x: 'center',
+                y: 'top',
+                text: '消费周期'
+            },
+            tooltip: {
+                formatter: function (x) {
+                    var idx;
+                    for (var i = 0; i < b.length; i++) {
+                        if (b[i] == x.name)
+                            idx = i;
+                    }
+                    var temp = c[idx].substring(1, c[idx].length - 2).split(',');
+                    if (temp.length > 3) {
+                        return temp[0] + ',' + temp[1] + ',' + temp[2] + '等';
+                    } else
+                        return c[idx].substring(1, c[idx].length - 2);
+                }
+            },
+
+            xAxis: {
+                data: b
+            },
+            yAxis: {},
+
+            series: [{
+                data: a,
+                label: {
+                    show: true
+                },
+                type: 'line',
+                smooth: true
+            }]
+        };
+        option && myChart.setOption(option);
+    }
+
+    function descuconsum(re) {
+        document.getElementById('div_pay').innerHTML = re.paymentName;
+        document.getElementById('div_hisg').innerHTML = re.单笔最高;
+        document.getElementById('div_round').innerHTML = re.周期;
+        document.getElementById('div_avpr').innerHTML = re.客户平均每单价格;
+        document.getElementById('div_change').innerHTML = re.换货的概率;
+        document.getElementById('div_value').innerHTML = re.用户价值;
+        document.getElementById('div_back').innerHTML = re.退货的概率;
+        document.getElementById('div_fre').innerHTML = re.频率;
+
+
+    }
+    function descusctime(re) {
+
+        var chartDom = document.getElementById('main5');
+        var myChart = echarts.init(chartDom);
+        var option;
+
+        option = {
+            title: {
+                text: '购物时间段',
+
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow'
+                }
+            },
+
+            xAxis: {},
+            yAxis: {
+
+                data: ['0:00-7:00','8:00-12:00','13:00-17:00','18:00-21:00','22:00-24:00']
+            },
+            series: [
+                {
+                    type: 'bar',
+                    data: [re[4].count, re[0].count, re[3].count,re[2].count , re[1].count],
+                    itemStyle: {
+                        color: new echarts.graphic.LinearGradient(
+                            0, 0, 0, 1,
+                            [
+                                {offset: 0, color: '#83bff6'},
+                                {offset: 0.5, color: '#188df0'},
+                                {offset: 1, color: '#188df0'}
+                            ]
+                        )
+                    },
+                },
+
+
+            ]
+        };
+
+        option && myChart.setOption(option);
+    }
+    function descuperpro(re){
+        document.getElementById('div_pro1').innerHTML = re.productName1;
+        document.getElementById('div_pro2').innerHTML = re.productName2;
+        document.getElementById('div_pro3').innerHTML = re.productName3;
+        document.getElementById('div_proty').innerHTML = re.productType;
+
+    }
+    function descutitle(re) {
+        document.getElementById('div_byti').innerHTML = '无'
+        document.getElementById('div_save').innerHTML = '无'
+        if (re.有券必买=='2' ){
+            document.getElementById('div_byti').innerHTML = '有券必买'
+        }
+        if(re.省钱能手 =='0'){
+            document.getElementById('div_save').innerHTML = '省钱能手'
+        }
+    }
+    function json(data){
+        var temp = JSON.parse(data);
+        var msg = temp.msg;
+        var re = JSON.parse(msg);
+        return re;
+    }
+    function jsonx(data){
+        var temp = JSON.parse(data);
+        var msg = temp.msg;
+        var re = JSON.parse(msg);
+        if(re.length == 0 || Object.keys(re).length == 0){
+            alert("输入错误信息，请重试");
+            window.location.replace("http://localhost:8080/single");
+        }
+        else {
+            return re;
+        }
+    }
+    function userprofile(a) {
+        var ajax = new XMLHttpRequest();
+        var url = 'http://localhost:8080/userprofile?msg=' + a;
+        ajax.open('get', url, true);
+        ajax.send();
+        ajax.onreadystatechange = function () {
+            if (ajax.readyState == 4 && ajax.status == 200) {
+                var re = jsonx(ajax.responseText);
+                descsuserprofile(re);
+            }
+        }
+    }
+    function usercycle(a) {
+        var ajax = new XMLHttpRequest();
+        var url = 'http://localhost:8080/usercycle?msg=' + a;
+        ajax.open('get',url,true);
+        ajax.send();
+        ajax.onreadystatechange = function () {
+            if (ajax.readyState==4 &&ajax.status==200) {
+                var re = json(ajax.responseText);
+                descucyc(re);
+            }
+        }
+    }
+    function userconsum(id) {
+        var ajax = new XMLHttpRequest();
+        var url = 'http://localhost:8080/userconsum?msg=' + id;
+        ajax.open('get',url,true);
+        ajax.send();
+        ajax.onreadystatechange = function () {
+            if (ajax.readyState==4 &&ajax.status==200) {
+                var re = json(ajax.responseText);
+                descuconsum(re);
+            }
+        }
+    }
+    function usersctime(id) {
+        var ajax = new XMLHttpRequest();
+        var url = 'http://localhost:8080/usersctime?msg=' + id;
+        ajax.open('get',url,true);
+        ajax.send();
+        ajax.onreadystatechange = function () {
+            if (ajax.readyState==4 &&ajax.status==200) {
+                var re = json(ajax.responseText);
+                descusctime(re);
+            }
+        }
+    }
+    function userprepro(a) {
+        var ajax = new XMLHttpRequest();
+        var url = 'http://localhost:8080/userperpro?msg=' + a;
+        ajax.open('get',url,true);
+        ajax.send();
+        ajax.onreadystatechange = function () {
+            if (ajax.readyState==4 &&ajax.status==200) {
+                var re = json(ajax.responseText);
+                descuperpro(re);
+            }
+        }
+    }
+    function usertitle(a) {
+        var ajax = new XMLHttpRequest();
+        var url = 'http://localhost:8080/usertitle?msg=' + a;
+        ajax.open('get',url,true);
+        ajax.send();
+        ajax.onreadystatechange = function () {
+            if (ajax.readyState==4 &&ajax.status==200) {
+                var re = json(ajax.responseText);
+                descutitle(re);
+            }
+        }
+    }
+    function user() {
+        var a =  [[${msg}]];
+
+        if(!a)
+            alert("请输入查询信息")
+        else {
+            userprofile(a);
+        }
+    }
+
+</script>
+<!--[if lt IE 9]>
+<script th:src="@{http://libs.baidu.com/jquery/1.11.1/jquery.min.js}"></script-->
+<script th:src="@{http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js}"></script>
+<script th:src="@{/assets/js/amazeui.ie8polyfill.min.js}"></script>
+<!--[if (gte IE 9)|!(IE)]><!-->
+<!--script th:src="@{/assets/js/jquery.min.js}"></script-->
+<!--<![endif]-->
+<!--script th:src="@{/assets/js/amazeui.min.js}"></script-->
+</body>
+</html>

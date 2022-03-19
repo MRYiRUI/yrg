@@ -1,0 +1,770 @@
+<!doctype html>
+<html class="no-js">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <script th:src="@{/assets/js/echarts.min.js}"></script>
+  <script th:src="@{/assets/js/jquery.min.js}"></script>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Bigdata team10</title>
+
+  <meta name="description" content="这是一个 user 页面">
+  <meta name="keywords" content="user">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <link rel="icon" type="image/png" th:href="@{/assets/i/favicon.png}">
+  <link rel="apple-touch-icon-precomposed" thhref="@{/assets/i/app-icon72x72@2x.png}">
+  <link rel="stylesheet" th:href="@{/assets/css/amazeui.min.css}"/>
+  <link rel="stylesheet" th:href="@{/assets/css/admin.css}">
+</head>
+<body onload="People()">
+<header>
+  <div class="am-topbar-brand">
+    <strong>Team 10</strong><small>商务管理系统</small>
+  </div>
+
+  <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+
+    <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
+
+      <li class="am-dropdown" data-am-dropdown>
+        <ul class="am-dropdown-content">
+          <li><a href="#"><span class="am-icon-user"></span> 资料</a></li>
+          <li><a href="#"><span class="am-icon-cog"></span> 设置</a></li>
+          <li><a href="#"><span class="am-icon-power-off"></span> 退出</a></li>
+        </ul>
+      </li>
+
+    </ul>
+  </div>
+</header>
+<div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
+  <div class="am-offcanvas-bar admin-offcanvas-bar">
+    <ul class="am-list admin-sidebar-list">
+      <li class="admin-parent">
+        <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}"><span class="am-icon-file" ></span>功能模块<span class="am-icon-angle-right am-fr am-margin-right"></span></a>
+        <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
+          <li><a href="/single" class="am-cf"><span class="am-icon-check"></span>个人画像<span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+          <li><a href="/group"><span class="am-icon-puzzle-piece"></span>群体画像</a></li>
+          <li><a href="/search"><span class="am-icon-puzzle-piece"></span>多值查询</a></li>
+        </ul>
+    </ul>
+  </div>
+</div>
+
+  <!-- sidebar end -->
+
+  <!-- content start -->
+  <div class="admin-content">
+    <div class="admin-content-body">
+      <div class="am-cf am-padding am-padding-bottom-0">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">群体特征分析</strong><small>
+          Analysis of group characteristics</small></div>
+      </div>
+
+
+
+      <div class="am-g">
+        <div class="am-g">
+        <div class="am-u-md-6">
+          <div class="am-panel am-panel-default">
+            <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-1'}"><strong>男女性别比例</strong><span class="am-icon-chevron-down am-fr" ></span></div>
+            <div class="am-panel-bd am-collapse am-in" id="collapse-panel-1">
+              <ul class="am-list admin-content-file">
+                <div id="main" style="width: 600px;height:400px;margin-right: 50%;" ></div>
+                <div id="main4" style="width: 600px;height:400px;margin-right: 50%;" ></div>
+              </ul>
+            </div>
+            <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-1'}"><strong>不同工作消费能力分析</strong><span class="am-icon-chevron-down am-fr" ></span></div>
+            <div class="am-panel-bd am-collapse am-in" id="collapse-panel-2">
+              <ul class="am-list admin-content-file">
+                <div id="main7" style="width: 600px;height:400px;margin-right: 50%;" ></div>
+              </ul>
+            </div>
+            <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-1'}"><strong>不同工作消费能力分析</strong><span class="am-icon-chevron-down am-fr" ></span></div>
+            <div class="am-panel-bd am-collapse am-in" id="collapse-panel-8">
+              <ul class="am-list admin-content-file">
+                <div id="main10" style="width: 600px;height:400px;margin-right: 50%;" ></div>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="am-u-md-6">
+          <div class="am-panel am-panel-default">
+            <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-4'}"><strong>消费能力分布</strong><span class="am-icon-chevron-down am-fr" ></span></div>
+            <div id="collapse-panel-4" class="am-panel-bd am-collapse am-in">
+              <ul class="am-list admin-content-task">
+                <li>
+
+                  <div class="admin-task-bd">
+                    <div id="main2" style="width: 800px;height:200px;"></div>
+                  </div>
+                </li>
+
+              </ul>
+            </div>
+            <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-4'}"><strong>国内各地消费能力评级</strong><span class="am-icon-chevron-down am-fr" ></span></div>
+            <div id="collapse-panel-5" class="am-panel-bd am-collapse am-in">
+              <ul class="am-list admin-content-task">
+                <li>
+                  <div class="admin-task-bd">
+                    <div id="main6" style="width: 800px;height:500px;margin-right: 50%;" ></div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-4'}"><strong>不同星座消费能力展示</strong><span class="am-icon-chevron-down am-fr" ></span></div>
+            <div id="collapse-panel-6" class="am-panel-bd am-collapse am-in">
+              <ul class="am-list admin-content-task">
+                <li>
+                  <div class="admin-task-bd">
+                    <div id="main8" style="width: 600px;height:400px;margin-left: 20%" ></div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-4'}"><strong>不同年龄段品牌偏好</strong><span class="am-icon-chevron-down am-fr" ></span></div>
+            <div id="collapse-panel-7" class="am-panel-bd am-collapse am-in">
+              <ul class="am-list admin-content-task">
+                <li>
+                  <div class="admin-task-bd">
+                    <div id="main9" style="width: 600px;height:400px;margin-right: 50%;" ></div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+        <div class="am-u-sm-12 am-u-md-4 am-u-md-push-8">
+      </div>
+      </div>
+    </div>
+
+    <footer class="admin-content-footer">
+      <hr>
+      <p class="am-padding-left">© 2021 team_10</p>
+    </footer>
+
+  </div>
+  <!-- content end -->
+
+</div>
+
+<a href="#" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}"></a>
+
+<script >
+  function json(data) {
+    var temp = JSON.parse(data);
+    var msg = temp.msg;
+    var re = JSON.parse(msg);
+    return re;
+  }
+   function pga(re) {
+     console.log(re);
+     var myChart = echarts.init(document.getElementById('main'));
+     var option = {
+       backgroundColor: 'white',
+
+       title: {
+         x: 'center',
+         y: 'top',
+         text: '各年龄段男女比例'
+       },
+       tooltip: {},
+       legend: {
+         icon: 'circle',
+         left: 'left',
+         data: [{
+           name: '男',
+           icon: 'circle',
+         },
+           {
+             name: '女',
+             icon: 'circle',
+           }]
+       },
+       xAxis: {
+         data: ["70后", "80后", "90后", "00后",]
+       },
+       yAxis: {},
+
+       series: [{
+         name: '男',
+         type: 'bar',
+         stack: 'total',
+         label: {
+           show: true
+         },
+         emphasis: {
+           focus: 'series',
+           blurScope: 'coordinateSystem'
+         },
+         data: [re[4].count, re[2].count, re[1].count, re[6].count],
+         itemStyle: {
+           color: '#5470c6',
+           opacity: 0.8,
+         }
+       },
+         {
+           name: '女',
+           type: 'bar',
+           stack: 'total',
+           label: {
+             show: true
+           },
+           emphasis: {
+             focus: 'series',
+             blurScope: 'coordinateSystem'
+           },
+           data: [re[5].count, re[3].count, re[0].count, re[7].count],
+           itemStyle: {
+             color: '#fac858',
+             opacity: 0.8,
+           }
+         }]
+     };
+     myChart.setOption(option);
+
+     var myChart = echarts.init(document.getElementById('main2'));
+     myChart.setOption({
+       title: {
+         x: 'center',
+         y: 'top',
+         text: '各年龄段男女消费能力'
+       },
+       tooltip: {
+         formatter: function () {
+           for(i = 0;i<re.length;i++)
+           {
+               return '消费能力评分：'+re[i].uvalue;
+           }
+         }
+       },
+       series: [
+         {
+           name: '年龄段',
+           type: 'pie',    // 设置图表类型为饼图
+           radius: '55%',  // 饼图的半径，外半径为可视区尺寸（容器高宽中较小一项）的 55% 长度。
+           data: [          // 数据数组，name 为数据项名称，value 为数据项值
+             {value: re[0].uvalue, name: re[0].age + re[0].gender},
+             {value: re[1].uvalue, name: re[1].age + re[1].gender},
+             {value: re[2].uvalue, name: re[2].age + re[2].gender},
+             {value: re[3].uvalue, name: re[3].age + re[3].gender},
+             {value: re[4].uvalue, name: re[4].age + re[4].gender},
+             {value: re[5].uvalue, name: re[5].age + re[5].gender},
+             {value: re[6].uvalue, name: re[6].age + re[6].gender},
+             {value: re[7].uvalue, name: re[7].age + re[7].gender}
+           ],
+           label: {
+             show: true
+           },
+           roseType: 'angle',
+           itemStyle: {
+             normal: {
+               shadowBlur: 200,
+               shadowColor: 'rgba(0, 0, 0, 0.5)'
+             }
+           }
+         }
+       ]
+     })
+
+     var chartDom = document.getElementById('main4');
+     var myChart = echarts.init(chartDom);
+     var option;
+
+     option = {
+       title: {
+         text: '性别比例分布',
+       },
+       tooltip: {
+         trigger: 'item'
+       },
+       legend: {
+         top: '5%',
+         left: 'center'
+       },
+       series: [
+         {
+           name: '性别比例',
+           type: 'pie',
+           radius: ['40%', '70%'],
+           avoidLabelOverlap: false,
+           itemStyle: {
+             borderRadius: 10,
+             borderColor: '#fff',
+             borderWidth: 2
+           },
+           label: {
+             show: false,
+             position: 'center'
+           },
+           emphasis: {
+             label: {
+               show: true,
+               fontSize: '40',
+               fontWeight: 'bold'
+             }
+           },
+           labelLine: {
+             show: false
+           },
+           data: [
+
+             {
+               value: parseInt(re[1].count) + parseInt(re[3].count) + parseInt(re[4].count) + parseInt(re[7].count),
+               name: '男',
+               itemStyle: {
+                 color: '#3ba272',
+
+               }
+             },
+             {
+               value: parseInt(re[0].count) + parseInt(re[2].count) + parseInt(re[5].count) + parseInt(re[6].count),
+               name: '女',
+               itemStyle: {
+                 color: 'red',
+                 opacity: 0.6,
+
+               }
+             },
+           ]
+
+         }
+       ]
+     };
+     option && myChart.setOption(option);
+   }
+function pprf(re) {
+  $.getJSON("/assets/China.json",function(map){
+    var myChart = echarts.init(document.getElementById('main6'));
+    echarts.registerMap("china",map);
+    myChart.setOption({
+      tooltip: {
+        formatter: function (param) {
+          for(i = 0;i<re.length;i++)
+          {
+            var na = param.name;
+            var pro = re[i].province;
+            var val = re[i].uvalue
+            na = na.toString()
+            pro = pro.toString()
+            val = val.toString()
+            if(na.slice(0,2)== pro.slice(0,2))
+              return '消费能力评级：'+val;
+
+          }
+        }
+      },
+      series: [{
+        type: 'map',//类型必须是map
+        map: 'china',//注意这里的值需要和echarts.registerMap('henan',data);一致
+      }]
+    });
+  });
+}
+function pcrf(re) {
+  var chartDom = document.getElementById('main8');
+  var myChart = echarts.init(chartDom);
+  var option;
+
+  option = {
+    title: {
+      text: '星座消费总金额分布图',
+    },
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'shadow'
+      }
+    },
+    legend: {
+      data: ['白羊','金牛','双子','巨蟹','狮子','处女','天秤','天蝎','射手','摩羯','水瓶','双鱼']
+    },
+
+    xAxis: {
+      data: ['白羊','金牛','双子','巨蟹','狮子','处女','天秤','天蝎','射手','摩羯','水瓶','双鱼']
+    },
+    yAxis: {
+
+    },
+    grid:{
+      left:150
+
+  },
+    series: [
+
+      {
+        name: '消费总金额',
+        type: 'bar',
+        data: [re[2].count,re[6].count,re[7].count,re[10].count,re[5].count,re[3].count,re[4].count,re[1].count,re[8].count,re[9].count,re[11].count,re[0].count],
+        itemStyle: {
+          color: new echarts.graphic.LinearGradient(
+                  0, 0, 0, 1,
+                  [
+                    {offset: 1, color: '#fac858'},
+                    {offset: 0, color: '#fa4858'},
+                    {offset: 0.5, color: '#fa8858'}
+
+                  ]
+          )
+        },
+      }
+    ]
+  };
+
+  option && myChart.setOption(option);
+
+}
+function pagbr(re) {
+  var chartDom = document.getElementById('main9');
+  var myChart = echarts.init(chartDom);
+  var option;
+
+  option = {
+    title: {
+      text: '品牌：'
+    },
+    tooltip: {
+      trigger: 'axis'
+    },
+    legend: {
+      data: ['卡萨帝', '小超人', '摩卡', '海尔', '统帅','无偏好']
+    },
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: '3%',
+      containLabel: true
+    },
+    toolbox: {
+      feature: {
+        saveAsImage: {}
+      }
+    },
+    xAxis: {
+      type: 'category',
+      boundaryGap: false,
+      data: ['70后','80后', '90后','00后']
+    },
+    yAxis: {
+      type: 'value'
+    },
+    series: [
+      {
+        name: '卡萨帝',
+        type: 'line',
+        stack: '喜爱度',
+        data: [re[3].卡萨帝, re[2].卡萨帝,re[1].卡萨帝,re[0].卡萨帝]
+      },
+      {
+        name: '小超人',
+        type: 'line',
+        stack: '喜爱度',
+        data: [re[3].小超人, re[2].小超人,re[1].小超人,re[0].小超人]
+      },
+      {
+        name: '摩卡',
+        type: 'line',
+        stack: '喜爱度',
+        data: [re[3].摩卡, re[2].摩卡,re[1].摩卡,re[0].摩卡]
+      },
+      {
+        name: '海尔',
+        type: 'line',
+        stack: '喜爱度',
+        data: [re[3].海尔, re[2].海尔,re[1].海尔,re[0].海尔]
+      },
+      {
+        name: '统帅',
+        type: 'line',
+        stack: '喜爱度',
+        data: [re[3].统帅, re[2].统帅,re[1].统帅,re[0].统帅]
+      },
+      {
+        name: '无偏好',
+        type: 'line',
+        stack: '喜爱度',
+        data: [re[3].无偏好, re[2].无偏好,re[1].无偏好,re[0].无偏好]
+      }
+    ]
+  };
+
+  option && myChart.setOption(option);
+}
+function plj(re) {
+
+  var chartDom = document.getElementById('main10');
+  var myChart = echarts.init(chartDom);
+  var option;
+
+  option = {
+    title: {
+      text: '职业'
+    },
+    tooltip: {
+      trigger: 'axis'
+    },
+    legend: {
+      data: ['学生', '白领', '教师', '军人', '警察','公务员']
+    },
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: '3%',
+      containLabel: true
+    },
+    toolbox: {
+      feature: {
+        saveAsImage: {}
+      }
+    },
+    xAxis: {
+      type: 'category',
+      boundaryGap: false,
+      data: ['0点-7点','8点-12点', '13点-17点','18点-21点','22点-24点']
+    },
+    yAxis: {
+      type: 'value'
+    },
+    series: [
+      {
+        name: '学生',
+        type: 'line',
+        stack: '访问次数',
+        data: [re[4].count, re[0].count,re[3].count,re[2].count,re[1].count]
+      },
+      {
+        name: '白领',
+        type: 'line',
+        stack: '访问次数',
+        data: [re[9].count, re[5].count,re[8].count,re[7].count,re[6].count]
+      },
+      {
+        name: '教师',
+        type: 'line',
+        stack: '访问次数',
+        data: [re[14].count, re[10].count,re[13].count,re[12].count,re[11].count]
+      },
+      {
+        name: '军人',
+        type: 'line',
+        stack: '访问次数',
+        data: [re[19].count, re[15].count,re[18].count,re[17].count,re[16].count]
+      },
+      {
+        name: '警察',
+        type: 'line',
+        stack: '访问次数',
+        data: [re[24].count, re[20].count,re[23].count,re[22].count,re[21].count]
+      },
+      {
+        name: '公务员',
+        type: 'line',
+        stack: '访问次数',
+        data: [re[29].count, re[25].count,re[28].count,re[27].count,re[26].count]
+      }
+    ]
+  };
+
+  option && myChart.setOption(option);
+}
+function pjrf(re) {
+
+  var chartDom = document.getElementById('main7');
+  var myChart = echarts.init(chartDom);
+  var option;
+
+  option = {
+
+    angleAxis: {
+    },
+    radiusAxis: {
+      type: 'category',
+      data: ['消费总金额'],
+      z: 10
+    },
+    tooltip:{},
+    polar: {
+    },
+    series: [{
+      type: 'bar',
+      data: [re[3].Amount_job],
+      coordinateSystem: 'polar',
+      name: '军人',
+      stack: '消费总金额',
+      emphasis: {
+        focus: 'series'
+      },
+      itemStyle: {
+        color:'#ea7ccc'
+      }
+    }, {
+      type: 'bar',
+      data: [re[0].Amount_job],
+      coordinateSystem: 'polar',
+      name: '学生',
+      stack: '消费总金额',
+      emphasis: {
+        focus: 'series'
+      },
+      itemStyle: {
+        color:'#9a60b4'
+      }
+    },
+      {
+        type: 'bar',
+        data: [re[5].Amount_job],
+        coordinateSystem: 'polar',
+        name: '公务员',
+        stack: '消费总金额',
+        emphasis: {
+          focus: 'series'
+        },
+        itemStyle: {
+          color:'#3ba272'
+        }
+      },
+      {
+        type: 'bar',
+        data: [re[2].Amount_job],
+        coordinateSystem: 'polar',
+        name: '教师',
+        stack: '消费总金额',
+        emphasis: {
+          focus: 'series'
+        },
+        itemStyle: {
+          color:'#ee6666'
+        }
+      },
+      {
+        type: 'bar',
+        data: [re[1].Amount_job],
+        coordinateSystem: 'polar',
+        name: '白领',
+        stack: '消费总金额',
+        emphasis: {
+          focus: 'series'
+        },
+        itemStyle: {
+          color:'#73c0de'
+        }
+      },
+      {
+        type: 'bar',
+        data: [re[4].Amount_job],
+        coordinateSystem: 'polar',
+        name: '警察',
+        stack: '消费总金额',
+        emphasis: {
+          focus: 'series'
+        },
+        itemStyle: {
+          color:'#fac858'
+        }
+      },
+    ],
+    legend: {
+      show: true,
+      data: ['军人', '学生','教师','公务员','白领','警察']
+    }
+  };
+
+  option && myChart.setOption(option);
+}
+  function People() {
+    pgendage();
+    pprocincerf();
+    pcityrf();
+    pjobrf();
+    pagebr();
+    plogjob();
+  }
+
+  function pgendage() {
+    var ajax = new XMLHttpRequest();
+    var url = 'http://localhost:8080/peoplega'
+    ajax.open('get',url,true);
+    ajax.send();
+    ajax.onreadystatechange = function () {
+      if (ajax.readyState == 4 && ajax.status == 200) {
+        var data = json(ajax.responseText);
+        pga(data);
+      }
+    }
+  }
+  function pprocincerf() {
+    var ajax = new XMLHttpRequest();
+    var url = 'http://localhost:8080/peprovrf'
+    ajax.open('get',url,true);
+    ajax.send();
+    ajax.onreadystatechange = function () {
+      if (ajax.readyState == 4 && ajax.status == 200) {
+        var data = json(ajax.responseText);
+        pprf(data);
+      }
+    }
+
+  }
+  function pcityrf() {
+    var ajax = new XMLHttpRequest();
+    var url = 'http://localhost:8080/peoplecrf'
+    ajax.open('get',url,true);
+    ajax.send();
+    ajax.onreadystatechange = function () {
+      if (ajax.readyState == 4 && ajax.status == 200) {
+        var data = json(ajax.responseText);
+        pcrf(data);
+      }
+    }
+
+  }
+  function pjobrf() {
+    var ajax = new XMLHttpRequest();
+    var url = 'http://localhost:8080/peoplejrf'
+    ajax.open('get',url,true);
+    ajax.send();
+    ajax.onreadystatechange = function () {
+      if (ajax.readyState == 4 && ajax.status == 200) {
+        var data = json(ajax.responseText);
+        pjrf(data);
+      }
+    }
+  }
+  function pagebr() {
+    var ajax = new XMLHttpRequest();
+    var url = 'http://localhost:8080/peopleagebr'
+    ajax.open('get',url,true);
+    ajax.send();
+    ajax.onreadystatechange = function () {
+      if (ajax.readyState == 4 && ajax.status == 200) {
+        var data = json(ajax.responseText);
+        pagbr(data);
+      }
+    }
+  }
+  function plogjob() {
+    var ajax = new XMLHttpRequest();
+    var url = 'http://localhost:8080/peoplogjob'
+    ajax.open('get',url,true);
+    ajax.send();
+    ajax.onreadystatechange = function () {
+      if (ajax.readyState == 4 && ajax.status == 200) {
+        var data = json(ajax.responseText);
+        plj(data);
+      }
+    }
+  }
+</script>
+<footer>
+  <hr>
+  <p class="am-padding-left">© 2021 team_10</p>
+</footer>
+<!--[if lt IE 9]-->
+
+</body>
+</html>
